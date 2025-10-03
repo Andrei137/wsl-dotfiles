@@ -1,0 +1,11 @@
+[
+    {
+        "action": "symlink",
+        "params": [
+            {
+                "source": "src/wsl.conf",
+                "destination": "/etc/wsl.conf"
+            }
+        ]
+    }
+]

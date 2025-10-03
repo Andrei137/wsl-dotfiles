@@ -1,0 +1,11 @@
+alias zshreset="source $HOME/.config/zsh/.zshrc"
+alias zshconfig="subl $HOME/.config/zsh/.zshrc"
+alias zshfunc="subl $HOME/.config/zsh/utils/functions.zsh"
+alias zshalias="subl $HOME/.config/zsh/utils/aliases.zsh"
+alias starconfig="subl $HOME/.config/starship.toml"
+alias ls="eza --all --git"
+alias cat="bat --style plain"
+alias fzfp="fzf -m --preview \"bat --style plain --color always {}\""
+alias fd=fdfind
+alias dv="devbox"
+alias s="subl"
