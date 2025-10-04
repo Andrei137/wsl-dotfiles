@@ -5,8 +5,8 @@ eval "$(devbox global shellenv --init-hook)"
 export DEVBOX_NO_PROMPT=true
 
 # exports
-WIN_PATHS=''
-export PATH="/usr/bin:/usr/local/bin:$PATH"
+WIN_PATHS='/mnt/c/windows:/mnt/d/programming/manager/scoop/apps/pwsh/current'
+export PATH="$WIN_PATHS:/usr/bin:/usr/local/bin:$PATH"
 export HISTFILE="$HOME/.config/zsh/.zsh_history"
 export EDITOR="subl"
 export LESS="-RFX"
