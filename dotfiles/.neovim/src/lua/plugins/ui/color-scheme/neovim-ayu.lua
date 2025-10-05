@@ -8,7 +8,6 @@ return {
     colors.generate()
 
     _G.transparent = true
-
     _G.update_colors = function()
       local main = "#0f141a"
       local panel = "#212733"

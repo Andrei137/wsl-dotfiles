@@ -1,94 +1,124 @@
--- Set leader key
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+local m = (function(modes)
+  local mod_table = {}
 
--- Disable the spacebar key's default behavior in Normal and Visual modes
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+  local function helper(combo, start)
+    for i = start, #modes do
+      local new_combo = combo .. modes[i]
+      local value = {}
+      for c in new_combo:gmatch(".") do
+        table.insert(value, c)
+      end
+      mod_table[new_combo] = (#value == 1) and value[1] or value
+      helper(new_combo, i + 1)
+    end
+  end
 
--- For conciseness
-local opts = { noremap = true, silent = true }
+  helper("", 1)
+  return mod_table
+end)({ "n", "v", "i", "t" })
 
--- Save file
-vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
+local map = vim.keymap.set
+local function mapn(mode, lhs, rhs, desc)
+  -- non recursive silent map
+  map(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
+end
 
--- Save file without auto-formatting
-vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
+-- Leader key
+map(m.nv, "<Space>", "<Nop>", { silent = true })
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
--- Quit file
-vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
-vim.keymap.set('n', '<C-w>', '<cmd> q! <CR>', opts)
+-- Disable keys
+mapn(m.nvit, "<Left>", "<Nop>", "Left is disabled")
+mapn(m.nvit, "<Down>", "<Nop>", "Down is disabled")
+mapn(m.nvit, "<Up>", "<Nop>", "Up is disabled")
+mapn(m.nvit, "<Right>", "<Nop>", "Right is disabled")
+mapn(m.nvit, "<F1>", "<Nop>", "F1 is disabled")
 
--- Delete single character without copying into register
-vim.keymap.set('n', 'x', '"_x', opts)
+-- Remaps
+mapn(m.n, "x", "\"_x", "Delete without copy")
+mapn(m.v, "p", "\"_dP", "Keep last yanked on paste")
+mapn(m.v, "<", "<gv", "Shift left")
+mapn(m.v, ">", ">gv", "Shift right")
+mapn(m.i, "<C-h>", "<C-w>", "Delete word")
 
--- Vertical scroll and center
-vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
-vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 
--- Find and center
-vim.keymap.set('n', 'n', 'nzzzv', opts)
-vim.keymap.set('n', 'N', 'Nzzzv', opts)
+-- Save
+map(m.n, "<C-s>", function()
+  if #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }) > 0 then
+    vim.notify("Errors! Cannot save!", vim.log.levels.ERROR)
+    return
+  end
+  vim.cmd("write")
+end, { desc = "Save file (only if no errors)" })
 
--- Resize with arrows
-vim.keymap.set('n', '<Up>', '<Nop>', opts)
-vim.keymap.set('n', '<Down>', '<Nop>', opts)
-vim.keymap.set('n', '<Left>', '<Nop>', opts)
-vim.keymap.set('n', '<Right>', '<Nop>', opts)
+mapn(m.n, "<leader>sn", "<cmd>noautocmd w <CR>", "Save without formatting")
+
+-- Quit
+mapn(m.ni, "<C-q>", "<cmd> q <CR>", "Quit file")
+mapn(m.ni, "<C-Q>", "<cmd> q! <CR>", "Quit without saving")
+
+-- Move in insert mode
+mapn(m.i, "<C-h>", "<Left>", "Move left")
+mapn(m.i, "<C-j>", "<Down>", "Move down")
+mapn(m.i, "<C-k>", "<Up>", "Move up")
+mapn(m.i, "<C-l>", "<Right>", "Move right")
+mapn(m.i, "<C-e>", "<End>", "Move end of line")
+mapn(m.i, "<C-b>", "<ESC>^i", "Move beginning of line")
+
+-- Center on motion
+mapn(m.n, "<C-d>", "<C-d>zz", "Center down")
+mapn(m.n, "<C-u>", "<C-u>zz", "Center up")
+mapn(m.n, "n", "nzzzv", "Center next search")
+mapn(m.n, "N", "Nzzzv", "Center previous search")
 
 -- Buffers
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- close buffer
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
+mapn(m.n, "<Tab>", ":bnext<CR>", "Next buffer")
+mapn(m.n, "<S-Tab>", ":bprevious<CR>", "Previous buffer")
+mapn(m.n, "<leader>x", ":bdelete!<CR>", "Close buffer")
+mapn(m.n, "<leader>b", "<cmd> enew <CR>", "New buffer")
 
--- Window management
-vim.keymap.set('n', '<leader>v', '<C-w>v', opts) -- split window vertically
-vim.keymap.set('n', '<leader>h', '<C-w>s', opts) -- split window horizontally
-vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
-vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+-- Windows
+mapn(m.n, "<leader>v", "<C-w>v", "Split window vertically")
+mapn(m.n, "<leader>h", "<C-w>s", "Split window horizontally")
+mapn(m.n, "<leader>se", "<C-w>=", "Equalize windows")
+mapn(m.n, "<leader>xs", ":close<CR>", "Close current window")
 
--- Navigate between splits
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', opts)
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', opts)
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', opts)
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', opts)
+-- Splits
+mapn(m.n, "<C-h>", ":wincmd h<CR>", "Focus left split")
+mapn(m.n, "<C-j>", ":wincmd j<CR>" , "Focus lower split")
+mapn(m.n, "<C-k>", ":wincmd k<CR>", "Focus upper split")
+mapn(m.n, "<C-l>", ":wincmd l<CR>", "Focus right split")
 
 -- Tabs
-vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts) -- open new tab
-vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
-vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts) --  go to next tab
-vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
+mapn(m.n, "<leader>to", ":tabnew<CR>", "New tab")
+mapn(m.n, "<leader>tx", ":tabclose<CR>", "Close tab")
+mapn(m.n, "<leader>tn", ":tabn<CR>", "Next tab")
+mapn(m.n, "<leader>tp", ":tabp<CR>", "Previous tab")
 
--- Toggle line wrapping
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
+-- Line wrapping
+mapn(m.n, "<leader>lw", "<cmd>set wrap!<CR>", "Toggle wrapping")
 
--- Stay in indent mode
-vim.keymap.set('v', '<', '<gv', opts)
-vim.keymap.set('v', '>', '>gv', opts)
-
--- Keep last yanked when pasting
-vim.keymap.set('v', 'p', '"_dP', opts)
-
--- Diagnostic keymaps
-vim.keymap.set('n', '[d', function()
+-- Diagnostic keymap
+map(m.n, "[d", function()
   vim.diagnostic.jump { count = -1, float = true }
-end, { desc = 'Go to previous diagnostic message' })
+end, { desc = "Go to previous diagnostic message" })
 
-vim.keymap.set('n', ']d', function()
+map(m.n, "]d", function()
   vim.diagnostic.jump { count = 1, float = true }
-end, { desc = 'Go to next diagnostic message' })
+end, { desc = "Go to next diagnostic message" })
 
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+map(m.n, "<leader>d", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+map(m.n, "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
-vim.keymap.set('n', 'K', function()
+map(m.n, "K", function()
   local windows = vim.api.nvim_list_wins()
   for _, win in ipairs(windows) do
     local config = vim.api.nvim_win_get_config(win)
-    if config.relative ~= '' then
+    if config.relative ~= "" then
       vim.api.nvim_win_close(win, true)
       return
     end
   end
   vim.lsp.buf.hover()
-end, { desc = 'Toggle hover' })
+end, { desc = "Toggle hover" })

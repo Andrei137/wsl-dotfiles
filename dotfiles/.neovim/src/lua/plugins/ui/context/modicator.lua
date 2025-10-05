@@ -1,0 +1,3 @@
+return {
+  'mawkler/modicator.nvim',
+}

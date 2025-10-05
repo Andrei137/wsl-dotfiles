@@ -3,122 +3,84 @@ return {
   'nvim-neo-tree/neo-tree.nvim',
   branch = 'v3.x',
   dependencies = {
-    'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons',
-    'MunifTanjim/nui.nvim',
-    '3rd/image.nvim', -- Optional image support in preview window: See `# Preview Mode` for more information
-    {
-      's1n7ax/nvim-window-picker',
-      version = '2.*',
-      config = function()
-        require('window-picker').setup {
-          filter_rules = {
-            include_current_win = false,
-            autoselect_one = true,
-            -- filter using buffer options
-            bo = {
-              -- if the file type is one of following, the window will be ignored
-              filetype = { 'neo-tree', 'neo-tree-popup', 'notify' },
-              -- if the buffer type is one of following, the window will be ignored
-              buftype = { 'terminal', 'quickfix' },
-            },
-          },
-        }
-      end,
-    },
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
   },
   config = function()
     require('neo-tree').setup {
-      close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
+      close_if_last_window = false,
       popup_border_style = 'rounded',
       enable_git_status = true,
       enable_diagnostics = true,
-      -- enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
-      open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' }, -- when opening files, do not use windows containing these filetypes or buftypes
-      sort_case_insensitive = false, -- used when sorting files and directories in the tree
-      sort_function = nil, -- use a custom function for sorting files and directories in the tree
-      -- sort_function = function (a,b)
-      --       if a.type == b.type then
-      --           return a.path > b.path
-      --       else
-      --           return a.type > b.type
-      --       end
-      --   end , -- this sorts files and directories descendantly
+      open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
+      sort_case_insensitive = false,
+      sort_function = nil,
       default_component_configs = {
         container = {
           enable_character_fade = true,
         },
         indent = {
           indent_size = 2,
-          padding = 1, -- extra padding on left hand side
-          -- indent guides
+          padding = 1,
           with_markers = true,
-          indent_marker = '│',
-          last_indent_marker = '└',
-          highlight = 'NeoTreeIndentMarker',
-          -- expander config, needed for nesting files
-          with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-          expander_collapsed = '',
-          expander_expanded = '',
-          expander_highlight = 'NeoTreeExpander',
+          indent_marker = "│",
+          last_indent_marker = "└",
+          highlight = "NeoTreeIndentMarker",
+          with_expanders = nil,
+          expander_collapsed = "",
+          expander_expanded = "",
+          expander_highlight = "NeoTreeExpander",
         },
         icon = {
-          folder_closed = '',
-          folder_open = '',
-          folder_empty = '󰜌',
-          -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
-          -- then these will never be used.
-          default = '*',
-          highlight = 'NeoTreeFileIcon',
+          folder_closed = "",
+          folder_open = "",
+          folder_empty = "󰜌",
+          default = "*",
+          highlight = "NeoTreeFileIcon",
         },
         modified = {
-          symbol = '[+]',
-          highlight = 'NeoTreeModified',
+          symbol = "[+]",
+          highlight = "NeoTreeModified",
         },
         name = {
           trailing_slash = false,
           use_git_status_colors = true,
-          highlight = 'NeoTreeFileName',
+          highlight = "NeoTreeFileName",
         },
         git_status = {
           symbols = {
-            -- Change type
-            added = '', -- or "✚", but this is redundant info if you use git_status_colors on the name
-            modified = '', -- or "", but this is redundant info if you use git_status_colors on the name
-            deleted = '✖', -- this can only be used in the git_status source
-            renamed = '󰁕', -- this can only be used in the git_status source
-            -- Status type
-            untracked = '',
-            ignored = '',
-            unstaged = '󰄱',
-            staged = '',
-            conflict = '',
+            added = "",
+            modified = "",
+            deleted = "✖",
+            renamed = "󰁕",
+            untracked = "",
+            ignored = "",
+            unstaged = "󰄱",
+            staged = "",
+            conflict = "",
           },
         },
-        -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
         file_size = {
           enabled = true,
-          required_width = 64, -- min width of window required to show this column
+          required_width = 64,
         },
         type = {
           enabled = true,
-          required_width = 122, -- min width of window required to show this column
+          required_width = 122,
         },
         last_modified = {
           enabled = true,
-          required_width = 88, -- min width of window required to show this column
+          required_width = 88,
         },
         created = {
           enabled = true,
-          required_width = 110, -- min width of window required to show this column
+          required_width = 110,
         },
         symlink_target = {
           enabled = false,
         },
       },
-      -- A list of functions, each representing a global custom command
-      -- that will be available in all sources (if not overridden in `opts[source_name].commands`)
-      -- see `:h neo-tree-custom-commands-global`
       commands = {},
       window = {
         position = 'left',
@@ -128,12 +90,12 @@ return {
           nowait = true,
         },
         mappings = {
-          ['<space>'] = {
-            'toggle_node',
-            nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+          ["<space>"] = {
+            "toggle_node",
+            nowait = false,
           },
-          ['<2-LeftMouse>'] = 'open',
-          ['<cr>'] = 'open',
+          ["<2-LeftMouse>"] = "open",
+          ["<cr>"] = "open",
           ['<esc>'] = 'cancel', -- close preview or floating neo-tree window
           ['P'] = { 'toggle_preview', config = { use_float = true } },
           ['l'] = 'open',
@@ -302,6 +264,13 @@ return {
         },
       },
     }
+
+    -- vim.api.nvim_create_autocmd("VimEnter", {
+    --   command = "set nornu nonu | Neotree toggle",
+    -- })
+    -- vim.api.nvim_create_autocmd("BufEnter", {
+    --   command = "set rnu nu",
+    -- })
 
     vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
     vim.keymap.set('n', '<leader>e', ':Neotree toggle position=left<CR>', { noremap = true, silent = true }) -- focus file explorer

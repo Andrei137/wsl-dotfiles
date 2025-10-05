@@ -8,8 +8,8 @@ return {
 
     local filename = {
       'filename',
-      file_status = true, -- displays file status (readonly status, modified status)
-      path = 0, -- 0 = just filename, 1 = relative path, 2 = absolute path
+      file_status = true,
+      path = 0,
     }
 
     local hide_in_width = function()
@@ -29,18 +29,15 @@ return {
 
     local diff = {
       'diff',
-      colored = false,
-      symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+      colored = true,
+      symbols = { added = ' ', modified = ' ', removed = ' ' },
       cond = hide_in_width,
     }
 
     require('lualine').setup {
       options = {
         icons_enabled = true,
-        theme = 'ayu', -- Set theme based on environment variable
-        -- Some useful glyphs:
-        -- https://www.nerdfonts.com/cheat-sheet
-        --        
+        theme = 'ayu',
         section_separators = { left = '', right = '' },
         component_separators = { left = '', right = '' },
         disabled_filetypes = { 'alpha', 'neo-tree' },
@@ -49,7 +46,7 @@ return {
       sections = {
         lualine_a = { mode },
         lualine_b = { 'branch' },
-        lualine_c = { filename },
+        lualine_c = {},
         lualine_x = { diagnostics, diff, { 'encoding', cond = hide_in_width }, { 'filetype', cond = hide_in_width } },
         lualine_y = { 'location' },
         lualine_z = { 'progress' },
