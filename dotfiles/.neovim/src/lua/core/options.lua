@@ -54,8 +54,8 @@ vim.opt.iskeyword:append "-"
 vim.opt.formatoptions:remove { "c", "r", "o" }
 vim.opt.runtimepath:remove "/usr/share/vim/vimfiles"
 vim.diagnostic.config {
-  virtual_text = true,
-  virtual_lines = { current_line = true },
+  virtual_text = { current_line = true },
+  virtual_lines = false,
   underline = false,
   update_in_insert = false,
 }

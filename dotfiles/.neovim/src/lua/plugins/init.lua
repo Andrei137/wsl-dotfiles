@@ -8,19 +8,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 require('lazy').setup((function()
   local plugins = {}
-  local plugins_dir = vim.fn.stdpath('config') .. '/lua/plugins/'
+  local plugins_dir = vim.fn.stdpath 'config' .. '/lua/plugins/'
 
   local disabled = {
-    "hardtime",
-    "precognition",
-    "which-key",
+    'hardtime',
+    'precognition',
+    'which-key',
   }
 
   for _, file in ipairs(vim.fn.glob(plugins_dir .. '**/*.lua', false, true)) do
-    if file:match('init.lua$') then
+    if file:match 'init.lua$' then
       goto continue
     end
 
