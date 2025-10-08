@@ -6,6 +6,12 @@ return {
 
     lint.linters_by_ft = {
       cpp = { 'cppcheck', 'clangtidy' },
+      python = { 'ruff' },
+      json = { 'jsonlint' },
+      html = { 'tidy', 'htmlhint' },
+      css = { 'stylelint' },
+      javascript = { 'eslint_d', 'jshint' },
+      markdown = { 'markdownlint' },
     }
 
     lint.linters.markdownlint.args = {
