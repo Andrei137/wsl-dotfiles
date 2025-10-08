@@ -1,3 +1,5 @@
+local u = require 'utils'
+
 return {
   'stevearc/oil.nvim',
   dependencies = {
@@ -44,6 +46,6 @@ return {
   },
   config = function(_, opts)
     require('oil').setup(opts)
-    vim.keymap.set('n', '-', '<cmd>Oil<CR>', { noremap = true, silent = true })
+    u.map('n', '-', '<cmd>Oil<CR>', u.opts 'Call Oil')
   end,
 }
