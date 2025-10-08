@@ -8,7 +8,7 @@ export DEVBOX_NO_PROMPT=true
 WIN_PATHS='/mnt/c/windows:/mnt/d/programming/manager/scoop/apps/pwsh/current'
 export PATH="$WIN_PATHS:/usr/bin:/usr/local/bin:$PATH"
 export HISTFILE="$HOME/.config/zsh/.zsh_history"
-export EDITOR="subl"
+export EDITOR="nvim"
 export LESS="-RFX"
 
 # zsh-defer
@@ -22,7 +22,6 @@ plugins=(
   zsh-autosuggestions
   zsh-shift-select
   you-should-use
-  # fast-syntax-highlighting
   zsh-syntax-highlighting
 )
 source $OH_MY_ZSH/oh-my-zsh.sh

@@ -16,6 +16,10 @@ sf() {
   subl "${files[@]}"
 }
 
+mcd() {
+    mkdir -p "$@" && cd "$@"
+}
+
 paste() {
   xclip -selection clipboard -o > "$@"
 }
