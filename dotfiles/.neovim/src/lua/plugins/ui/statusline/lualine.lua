@@ -1,16 +1,7 @@
--- Improves the default status line
 return {
   'nvim-lualine/lualine.nvim',
   config = function()
-    local mode = {
-      'mode',
-    }
-
-    local filename = {
-      'filename',
-      file_status = true,
-      path = 0,
-    }
+    local mode = { 'mode' }
 
     local hide_in_width = function()
       return vim.fn.winwidth(0) > 100
@@ -18,12 +9,8 @@ return {
 
     local diagnostics = {
       'diagnostics',
-      sources = { 'nvim_diagnostic' },
-      sections = { 'error', 'warn' },
       symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-      colored = false,
-      update_in_insert = false,
-      always_visible = false,
+      colored = true,
       cond = hide_in_width,
     }
 
@@ -31,6 +18,30 @@ return {
       'diff',
       colored = true,
       symbols = { added = ' ', modified = ' ', removed = ' ' },
+      cond = hide_in_width,
+    }
+
+    local formatter = {
+      function()
+        local status, conform = pcall(require, 'conform')
+        if not status then
+          return 'Conform N/A'
+        end
+
+        local lsp_format = require 'conform.lsp_format'
+        local formatters = conform.list_formatters_for_buffer()
+        if formatters and #formatters > 0 then
+          return '󰷈 ' .. table.concat(formatters, ' ')
+        end
+
+        local bufnr = vim.api.nvim_get_current_buf()
+        local lsp_clients = lsp_format.get_format_clients { bufnr = bufnr }
+        if not vim.tbl_isempty(lsp_clients) then
+          return '󰷈 LSP Formatter'
+        end
+
+        return ''
+      end,
       cond = hide_in_width,
     }
 
@@ -45,9 +56,9 @@ return {
       },
       sections = {
         lualine_a = { mode },
-        lualine_b = { 'branch' },
+        lualine_b = { 'branch', diff },
         lualine_c = {},
-        lualine_x = { diagnostics, diff, { 'encoding', cond = hide_in_width }, { 'filetype', cond = hide_in_width } },
+        lualine_x = { diagnostics, formatter, { 'filetype', cond = hide_in_width } },
         lualine_y = { 'location' },
         lualine_z = { 'progress' },
       },

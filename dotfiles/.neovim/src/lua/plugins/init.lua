@@ -16,6 +16,8 @@ require('lazy').setup((function()
     'hardtime',
     'precognition',
     'which-key',
+    'ultimate-autopair',
+    'tabout'
   }
 
   for _, file in ipairs(vim.fn.glob(plugins_dir .. '**/*.lua', false, true)) do

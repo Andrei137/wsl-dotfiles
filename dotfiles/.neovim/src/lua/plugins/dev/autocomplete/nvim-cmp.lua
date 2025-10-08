@@ -65,7 +65,6 @@ return {
         end,
       },
       completion = {
-        -- FIXED: Remove autocomplete line entirely or set to proper value
         completeopt = 'menu,menuone,noselect',
       },
 
@@ -78,11 +77,16 @@ return {
         },
         ['<C-Space>'] = cmp.mapping.complete {},
         ['<C-c>'] = cmp.mapping.abort(),
-        ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
+        ['<C-]>'] = cmp.mapping(function(fallback)
+          if luasnip.jumpable(1) then
+            luasnip.jump(1)
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+        ['<C-[>'] = cmp.mapping(function(fallback)
+          if luasnip.jumpable(-1) then
+            luasnip.jump(-1)
           else
             fallback()
           end
@@ -90,8 +94,13 @@ return {
         ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
           else
             fallback()
           end
