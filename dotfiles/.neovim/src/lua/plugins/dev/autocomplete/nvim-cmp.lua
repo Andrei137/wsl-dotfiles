@@ -1,4 +1,3 @@
--- Autocompletion
 return {
   'hrsh7th/nvim-cmp',
   dependencies = {
@@ -73,7 +72,7 @@ return {
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['Space'] = cmp.mapping.confirm {
           select = true,
-          behavior = cmp.ConfirmBehavior.Replace
+          behavior = cmp.ConfirmBehavior.Replace,
         },
         ['<C-Space>'] = cmp.mapping.complete {},
         ['<C-c>'] = cmp.mapping.abort(),

@@ -1,4 +1,2 @@
-return {
-  "windwp/nvim-ts-autotag",
-  opts = {},
-}
+return 'windwp/nvim-ts-autotag'
+

@@ -1,3 +1,1 @@
-return {
-  'Darazaki/indent-o-matic',
-}
+return 'Darazaki/indent-o-matic'

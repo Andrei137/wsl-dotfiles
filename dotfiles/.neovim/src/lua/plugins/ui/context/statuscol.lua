@@ -1,4 +1,3 @@
--- Status column plugin
 return {
   'luukvbaal/statuscol.nvim',
   config = function()

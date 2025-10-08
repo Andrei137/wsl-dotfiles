@@ -6,11 +6,11 @@ return {
     'mason-org/mason-lspconfig.nvim',
   },
   opts = {
-    servers = {}
+    servers = {},
   },
   config = function()
     require('lazydev').setup()
-    require('lsp-setup').setup({
+    require('lsp-setup').setup {
       default_mappings = true,
       on_attach = function(client, bufnr) end,
       servers = {
@@ -18,7 +18,7 @@ return {
           settings = {
             Lua = {
               hint = {
-                enable = true
+                enable = true,
               },
               completion = {
                 callSnippet = 'Replace',
@@ -28,8 +28,8 @@ return {
                 checkThirdParty = false,
                 library = {
                   vim.env.VIMRUNTIME,
-                  "${3rd}/luv/library",
-                }
+                  '${3rd}/luv/library',
+                },
               },
               diagnostics = {
                 globals = { 'vim' },
@@ -45,6 +45,7 @@ return {
       formatting = {
         on_save = false,
       },
-    })
+    }
   end,
 }
+

@@ -1,3 +1,2 @@
-return {
-  'mawkler/modicator.nvim',
-}
+return 'mawkler/modicator.nvim'
+
