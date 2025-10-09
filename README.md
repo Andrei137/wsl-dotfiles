@@ -1,1 +1,1 @@
-# WSL Ubuntu dotfiles
+# WSL dotfiles
