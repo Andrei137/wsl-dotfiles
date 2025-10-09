@@ -47,8 +47,7 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
     fdfind --type d ${FZF_FD_OPTS} . "${1}"
 }
-# ls -l ~/.config/fzf/key-bindings.zsh
-source $HOME/.config/fzf/key-bindings.zsh
+source $HOME/.config/zsh/fzf/key-bindings.zsh
 
 # direnv
 export DIRENV_LOG_FORMAT=""

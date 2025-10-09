@@ -1,1 +1,0 @@
-/home/andrei13/.local/share/devbox/global/default/.devbox/nix/profile/default/share/fzf/key-bindings.zsh
