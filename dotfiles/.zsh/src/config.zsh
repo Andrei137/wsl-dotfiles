@@ -38,9 +38,9 @@ zsh-defer eval "$(zoxide init --cmd cd zsh)"
 # fzf
 FZF_FD_OPTS="--hidden --follow --exclude '.git'"
 export FZF_DEFAULT_OPTS="--layout=default"
-export FZF_DEFAULT_COMMAND="fdfind ${FZF_FD_OPTS}"
-export FZF_CTRL_T_COMMAND="fdfind ${FZF_FD_OPTS}"
-export FZF_ALT_C_COMMAND="fdfind --type d ${FZF_FD_OPTS}"
+export FZF_DEFAULT_COMMAND="fd ${FZF_FD_OPTS}"
+export FZF_CTRL_T_COMMAND="fd ${FZF_FD_OPTS}"
+export FZF_ALT_C_COMMAND="fd --type d ${FZF_FD_OPTS}"
 _fzf_compgen_path() {
     fdfind ${FZF_FD_OPTS} . "${1}"
 }

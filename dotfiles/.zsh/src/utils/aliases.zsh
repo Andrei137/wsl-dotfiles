@@ -6,6 +6,5 @@ alias starconfig="nvim $HOME/.config/starship.toml"
 alias ls="eza --all --git"
 alias cat="bat --style plain"
 alias fzfp="fzf -m --preview \"bat --style plain --color always {}\""
-alias fd=fdfind
 alias dv="devbox"
 alias n="nvim"
