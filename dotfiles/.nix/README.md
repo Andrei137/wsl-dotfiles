@@ -8,7 +8,7 @@ devbox global add starship
 Make sure to edit `settings.json` first
 ```zsh
 chmod +x setup.sh
-.\setup.sh
+./setup.sh
 ```
 
 ## Useful links

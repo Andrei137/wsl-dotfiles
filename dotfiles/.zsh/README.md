@@ -18,7 +18,7 @@ sudo git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $OMZ_PL
 Make sure to edit `settings.json` first
 ```zsh
 chmod +x setup.sh
-.\setup.sh
+./setup.sh
 ```
 
 ## Useful links
