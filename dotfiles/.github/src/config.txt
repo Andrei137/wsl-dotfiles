@@ -6,9 +6,10 @@
 [color]
 	ui = auto
 [core]
-	editor = subl
+	editor = nvim
 	autocrlf = input
 	eol = lf
+	pager = cat
 [pull]
 	rebase = true
 [credential]
