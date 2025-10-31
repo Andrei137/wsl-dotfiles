@@ -3,14 +3,16 @@ local u = require 'utils'
 return {
   'stevearc/conform.nvim',
   config = function()
-    require('conform').setup {
+    local conform = require 'conform'
+    conform.setup {
       formatters_by_ft = {
         cpp = { 'clang-format' },
         lua = { 'stylua' },
         json = { 'fixjson', 'jq' },
         html = { 'html_beautify' },
         css = { 'css_beautify' },
-        javascript = { 'eslint_d', 'js_beautify' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
         python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
       },
       formatters = {
@@ -21,11 +23,10 @@ return {
     }
 
     u.command('Format', function()
-      require('conform').format { async = false }
+      conform.format { async = false }
     end, 'Format buffer')
 
     u.command('ShowFormatters', function()
-      local conform = require 'conform'
       local bufnr = vim.api.nvim_get_current_buf()
       local formatters = conform.list_formatters_for_buffer(bufnr)
 

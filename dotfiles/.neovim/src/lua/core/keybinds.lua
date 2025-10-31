@@ -14,14 +14,31 @@ u.map('nvit', '<F1>', '<Nop>', u.opts 'F1 is disabled')
 u.map('nvit', '<A-x>', '<Nop>', u.opts 'Alt-x is disabled')
 u.map('nvit', '<A-s>', '<Nop>', u.opts 'Alt-s is disabled')
 
--- Remaps
-u.map('n', 'x', '"_x', u.opts 'Delete without copy')
-u.map('v', 'p', '"_dP', u.opts 'Keep last yanked on paste')
-u.map('v', '>', '>gv', u.opts 'Shift right')
-u.map('v', '<', '<gv', u.opts 'Shift left')
+-- Ctrl + Backspace
 u.map('i', '<C-h>', '<C-w>', u.opts 'Delete word')
+
+-- Move selection 
 u.map('v', 'J', ":m '>+1<CR>gv=gv", { silent = true })
 u.map('v', 'K', ":m '<-2<CR>gv=gv", { silent = true })
+u.map('v', '>', '>gv', u.opts 'Shift right')
+u.map('v', '<', '<gv', u.opts 'Shift left')
+
+-- Delete without copy
+u.map('n', 'x', '"_x', u.opts 'Delete without copy')
+u.map('nv', 'd', '"_d', u.opts 'Delete without copy')
+u.map('n', 'D', '"_D', u.opts 'Delete without copy')
+
+-- Cut
+u.map('nv', 'm', 'd', u.opts 'Cut')
+u.map('nv', 'mm', 'd', u.opts 'Cut')
+u.map('n', 'M', 'D', u.opts 'Cut')
+
+-- Paste 
+u.map('v', 'p', '"_dP', u.opts 'Keep last yanked on paste')
+u.map('n', 'p', function()
+  vim.cmd 'normal! p'
+  vim.cmd '%s/\\r//e'
+end, u.opts 'Paste and remove \r')
 
 -- Save
 u.map('n', '<C-s>', function()
@@ -37,10 +54,6 @@ u.map('ni', '<C-q>', ':q <CR>', u.opts 'Quit file')
 u.map('ni', '<C-Q>', ':q! <CR>', u.opts 'Quit without saving')
 
 -- Move in insert mode
-u.map('i', '<C-h>', '<Left>', u.opts 'Move left')
-u.map('i', '<C-j>', '<Down>', u.opts 'Move down')
-u.map('i', '<C-k>', '<Up>', u.opts 'Move up')
-u.map('i', '<C-l>', '<Right>', u.opts 'Move right')
 u.map('i', '<C-e>', '<End>', u.opts 'Move end of line')
 u.map('i', '<C-b>', '<ESC>^i', u.opts 'Move beginning of line')
 
@@ -86,7 +99,7 @@ u.map('n', ']d', function()
   vim.diagnostic.jump { count = 1, float = true }
 end, { desc = 'Go to next diagnostic message' })
 
-u.map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+u.map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 u.map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 u.map('n', 'K', function()

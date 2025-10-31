@@ -10,7 +10,8 @@ return {
       json = { 'jsonlint' },
       html = { 'tidy', 'htmlhint' },
       css = { 'stylelint' },
-      javascript = { 'eslint_d', 'jshint' },
+      javascript = { 'eslint_d' },
+      typescript = { 'eslint_d' },
       markdown = { 'markdownlint' },
     }
 
@@ -28,13 +29,19 @@ return {
         return
       end
 
-      local available = {}
-      for _, linter in ipairs(linters) do
-        local cmd = lint.linters[linter] and lint.linters[linter].cmd or linter
-        if vim.fn.executable(cmd) == 1 then
-          table.insert(available, linter)
+      local available = vim.tbl_filter(function(linter)
+        local l = lint.linters[linter]
+        if not l then
+          return false
         end
-      end
+        local cmd = l.cmd
+        if type(cmd) == 'string' then
+          return vim.fn.executable(cmd) == 1
+        elseif type(cmd) == 'function' then
+          return true
+        end
+        return false
+      end, linters)
 
       if #available > 0 then
         lint.try_lint(available)
@@ -43,12 +50,11 @@ return {
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'TextChanged', 'TextChangedI' }, {
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
       group = lint_augroup,
-      callback = function()
-        vim.diagnostic.reset(nil, 0)
-        safe_try_lint()
-      end,
+      callback = safe_try_lint,
     })
+
+    vim.keymap.set('n', '<leader>l', safe_try_lint, { desc = 'Trigger linting for current file' })
   end,
 }
