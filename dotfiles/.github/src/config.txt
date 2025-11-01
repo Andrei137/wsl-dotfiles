@@ -9,7 +9,7 @@
 	editor = nvim
 	autocrlf = input
 	eol = lf
-	pager = cat
+	pager = less
 [pull]
 	rebase = true
 [credential]

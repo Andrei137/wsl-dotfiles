@@ -3,19 +3,20 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.g.have_nerd_font = true
 vim.o.termguicolors = true
-vim.o.clipboard = 'unnamedplus'
-vim.o.mouse = 'a'
+vim.o.clipboard = "unnamedplus"
+vim.o.mouse = "a"
 
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.cursorline = true
-vim.o.cursorlineopt = 'number'
+vim.o.showtabline = 0
+vim.o.cursorlineopt = "number"
 vim.o.showmode = false
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 
 vim.o.wrap = false
 vim.o.linebreak = true
-vim.o.whichwrap = 'bs<>[]hl'
+vim.o.whichwrap = "bs<>[]hl"
 
 vim.o.autoindent = true
 vim.o.ignorecase = true
@@ -48,16 +49,13 @@ vim.o.conceallevel = 0
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
-vim.o.completeopt = 'menuone'
-vim.opt.shortmess:append 'c'
-vim.opt.iskeyword:append '-'
-vim.opt.formatoptions:remove { 'c', 'r', 'o' }
-vim.opt.runtimepath:remove '/usr/share/vim/vimfiles'
-vim.diagnostic.config {
-  virtual_text = { current_line = true },
-  virtual_lines = false,
-  underline = false,
-  update_in_insert = false,
-}
+vim.opt.fillchars = { fold = " " }
+vim.opt.foldmethod = "indent"
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
 
-vim.o.showtabline = 0
+vim.o.completeopt = "menuone"
+vim.opt.shortmess:append "c"
+vim.opt.iskeyword:append "-"
+vim.opt.formatoptions:remove { "c", "r", "o" }
+vim.opt.runtimepath:remove "/usr/share/vim/vimfiles"
