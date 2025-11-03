@@ -1,26 +1,7 @@
 return {
 	"mfussenegger/nvim-lint",
 	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		{ "williamboman/mason.nvim", opts = {} },
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
 	config = function()
-		require("mason-tool-installer").setup {
-			ensure_installed = {
-				"eslint_d",
-				"hadolint",
-				"htmlhint",
-				"jsonlint",
-				-- "markdownlint-cli2",
-				"ruff",
-				"shellcheck",
-				"yamllint",
-			},
-			auto_update = false,
-			run_on_start = true,
-		}
-
 		local lint = require "lint"
 		lint.linters_by_ft = {
 			sh = { "shellcheck" },

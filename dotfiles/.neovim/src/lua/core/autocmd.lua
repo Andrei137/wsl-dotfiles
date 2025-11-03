@@ -18,7 +18,6 @@ u.autocmd({ "BufEnter", "WinEnter", "ModeChanged" }, function()
 		return
 	end
 
-	-- Regular buffer path + filename
 	local path = vim.fn.expand("%:p:h"):gsub(vim.fn.expand "$HOME", "~")
 	local filename = vim.fn.expand "%:t"
 

@@ -2,30 +2,7 @@ local u = require "utils"
 
 return {
 	"stevearc/conform.nvim",
-	dependencies = {
-		{ "williamboman/mason.nvim", opts = {} },
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
 	config = function()
-		require("mason-tool-installer").setup {
-			ensure_installed = {
-				"clang-format",
-				"codespell",
-				"eslint_d",
-				"fixjson",
-				"jq",
-				-- "markdownlint-cli2",
-				"mdformat",
-				"prettierd",
-				"ruff",
-				"shellcheck",
-				"stylua",
-				"tombi",
-			},
-			auto_update = false,
-			run_on_start = true,
-		}
-
 		local conform = require "conform"
 		conform.setup {
 			formatters_by_ft = {

@@ -14,7 +14,7 @@ require("lazy").setup((function()
 	local plugins_dir = vim.fn.stdpath "config" .. "/lua/plugins/"
 
 	local disabled = {
-		-- "hardtime",
+		"hardtime",
 	}
 
 	for _, file in ipairs(vim.fn.glob(plugins_dir .. "**/*.lua", false, true)) do

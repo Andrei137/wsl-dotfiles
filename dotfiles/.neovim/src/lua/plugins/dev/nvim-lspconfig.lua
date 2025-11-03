@@ -3,9 +3,14 @@ local u = require "utils"
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		{ "williamboman/mason.nvim", opts = {} },
+		{ "mason-org/mason.nvim", opts = {} },
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+	},
+	opts = {
+		document_highlight = {
+			enabled = false,
+		},
 	},
 	config = function()
 		local telescope = require "telescope.builtin"
@@ -43,6 +48,16 @@ return {
 					end
 					vim.lsp.buf.hover()
 				end, { desc = "Get hover information about symbol under cursor" })
+				u.map("n", "<Esc>", function()
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						if vim.api.nvim_win_is_valid(win) then
+							local cfg = vim.api.nvim_win_get_config(win)
+							if cfg.relative ~= "" then
+								pcall(vim.api.nvim_win_close, win, false)
+							end
+						end
+					end
+				end, { desc = "Close floating windows" })
 
 				local function client_supports_method(client, method, bufnr)
 					if vim.fn.has "nvim-0.11" == 1 then
@@ -53,31 +68,8 @@ return {
 				end
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-					local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
-					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-						buffer = event.buf,
-						group = highlight_augroup,
-						callback = vim.lsp.buf.document_highlight,
-					})
-
-					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-						buffer = event.buf,
-						group = highlight_augroup,
-						callback = vim.lsp.buf.clear_references,
-					})
-
-					vim.api.nvim_create_autocmd("LspDetach", {
-						group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
-						callback = function(event2)
-							vim.lsp.buf.clear_references()
-							vim.api.nvim_clear_autocmds { group = "lsp-highlight", buffer = event2.buf }
-						end,
-					})
-				end
-
 				if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-					u.map("n", "<leader>th", function()
+					u.map("n", "gth", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
 					end, opts "[T]oggle Inlay [H]ints")
 				end
@@ -145,9 +137,8 @@ return {
 			},
 		}
 
-		require("mason-tool-installer").setup { ensure_installed = vim.tbl_keys(servers) }
 		require("mason-lspconfig").setup {
-			ensure_installed = {},
+			ensure_installed = vim.tbl_keys(servers or {}),
 			automatic_installation = false,
 			handlers = {
 				function(server_name)

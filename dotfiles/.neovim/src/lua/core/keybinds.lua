@@ -96,12 +96,3 @@ u.map("n", "<C-l>", ":wincmd l<CR>", u.opts "Focus right split")
 -- Line wrapping
 u.map("n", "<leader>lw", "<cmd>set wrap!<CR>", u.opts "Toggle wrapping")
 
--- Virtual windows
-u.map("n", "<Esc>", function()
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		local cfg = vim.api.nvim_win_get_config(win)
-		if cfg.relative ~= "" then
-			vim.api.nvim_win_close(win, false)
-		end
-	end
-end, { desc = "Close floating windows" })
